@@ -4,7 +4,7 @@
 <p><strong>Durée :</strong> <?= $film['duree'] ?></p>
 <p><strong>Année de sortie :</strong> <?= $film['date_sortie'] ?></p>
 <p><strong>Synopsis :</strong> <?= $film['synopsis'] ?></p>
-<h3>Casting :</h3>
+
 <table>
     <thead>
         <tr>
@@ -13,18 +13,17 @@
         </tr>
     </thead>
     <tbody>
-            <?php $castings = $requete->fetchAll();
-            foreach($castings as $casting) {?>
+            <?php foreach($castings as $cast) {?>
             <tr>
-                <td><?= $casting['prenom'] ." ". $casting['nom'] ?></td>
-                <td><?= $casting['nom_role'] ?></td>
+                <td><?= $cast['prenom'] ." ". $cast['nom'] ?></td>
+                <td><?= $cast['nom_role'] ?></td>
             </tr>
             <?php } ?>   
     </tbody>
 </table>
 <?php
 
-$titre = "Détail du films";
-$titre_secondaire = "Détail du films";
+$titre = "Détails du films";
+$titre_secondaire = "Détails du films";
 $contenu = ob_get_clean();
 require "view/template.php";
