@@ -22,10 +22,17 @@ class CinemaController{
     
     public function detailFilm($id){
         $pdo = Connect::seConnecter();
-        $requete = $pdo->prepare ("SELECT titre, duree, date_sortie, synopsis FROM film WHERE id_film = :id");
+        $requete = $pdo->prepare ("SELECT titre, TIME_FORMAT(SEC_TO_TIME(duree * 60), '%H:%i') AS duree, DATE_FORMAT(date_sortie, '%Y') AS date_sortie, synopsis, personne.nom AS nom, personne.prenom AS prenom, roles.nom_role AS nom_role
+        FROM film 
+        INNER JOIN casting ON film.id_film = casting.id_film
+        INNER JOIN acteur ON casting.id_acteur = acteur.id_acteur
+        INNER JOIN roles ON casting.id_role = roles.id_role
+        INNER JOIN personne ON acteur.id_personne = personne.id_personne
+        WHERE film.id_film = :id");
         $requete->execute(["id" => $id]);
         $film = $requete->fetch();
         require "view/detailFilm.php";
     }
 }
+
 ?>
