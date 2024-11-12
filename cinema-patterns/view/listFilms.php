@@ -11,10 +11,14 @@
     </thead>
     <tbody>
         <?php
+
             foreach($requete->fetchAll() as $film) {?>
                 <tr>
                     <td><?= $film["titre"] ?></td>
-                    <td><?= $film["date_sortie"] ?></td>
+                    <td><?= $film['date_sortie'] ?></td>
+                    <td><a href="index.php?action=detailFilm&id=<?= $film["id_film"] ?>">Voir les détails</a></td>
+                    
+                    
                 </tr>    
         <?php } ?>
     </tbody>    
