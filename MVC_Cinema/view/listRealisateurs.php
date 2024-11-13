@@ -18,7 +18,7 @@
                     <td><?= $film["nom"] ?></td>
                     <td><?= $film["sexe"] ?></td>
                     <td><?= $film["date_naissance"] ?></td>
-                    <td><a href="index.php?action=detailActeur&id=<?= $film['id_acteur'] ?>">Voir les détails</a></td>
+                    <td><a href="index.php?action=detailRealisateur&id=<?= $film['id_realisateur'] ?>">Voir les détails</a></td>
                 </tr>    
         <?php } ?>
     </tbody>    
@@ -26,7 +26,7 @@
 
 <?php
 
-$titre = "Liste des Acteurs";
-$titre_secondaire = "Liste des acteurs";
+$titre = "Liste des Réalisateurs";
+$titre_secondaire = "Liste des Réalisateurs";
 $contenu = ob_get_clean();
 require "view/template.php";

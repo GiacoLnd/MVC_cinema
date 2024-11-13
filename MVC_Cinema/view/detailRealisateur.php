@@ -8,20 +8,18 @@
     <thead>
         <tr>
             <th>Personnage(s) incarné(s)</th>
-            <th>Film(s)</th>
         </tr>
     </thead>
     <tbody>
-            <?php // affiche les différents rôles et titre de film, sinon prévient qu'aucun film n'est renseigné//
-            if(empty($roles)) { ?>
+            <?php // affiche les différents films réalisés, sinon prévient qu'aucun film n'est renseigné//
+            if(empty($realisations)) { ?>
                 <tr>
-                    <td  colspan="2">Aucun film renseigné</td>
+                    <td>Aucun film renseigné</td>
                 </tr> 
             <?php } else { 
-                foreach($roles as $role) {?>
+                foreach($realisations as $realisation) {?>
                 <tr>
-                    <td><?= $role['nom_role']?></td>
-                    <td><?= $role['titre'] ?></td>
+                    <td><?= $realisation['titre'] ?></td>
                 </tr>
                 <?php }} ?>   
     </tbody>
@@ -29,7 +27,7 @@
 
 <?php
 
-$titre = "Détails de l'acteur";
-$titre_secondaire = "Détails de l'acteur";
+$titre = "Détails du réalisateur";
+$titre_secondaire = "Détails du réalisateur";
 $contenu = ob_get_clean();
 require "view/template.php";
