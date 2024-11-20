@@ -29,4 +29,4 @@
 $titre = "Liste des Réalisateurs";
 $titre_secondaire = "Liste des Réalisateurs";
 $contenu = ob_get_clean();
-require "view/template.php";
+require "view/template.php";?>
