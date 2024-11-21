@@ -74,6 +74,31 @@ class GenreController{
             require "view/addGenre.php"; // précise que la fonction a besoin de la page addGenre.php
         }
     }
-        
-} 
+    
+    public function deleteGenre($id) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+            if ($id) {
+                    $pdo = Connect::seConnecter();
+                    //Arrête la transmission automatique des requêtes et initie la transaction
+                    $pdo->beginTransaction();
+
+                    // Préparer la suppression des liaisons de films avec le genre supprimé
+                    $requeteGenreFilm = $pdo->prepare("DELETE FROM genre_film WHERE id_genre = :id");
+                    $requeteGenreFilm->execute(["id" => $id]);
+
+                    // Préparer la suppression du genre
+                    $requeteGenre = $pdo->prepare("DELETE FROM genre WHERE id_genre = :id");
+                    $requeteGenre->execute(["id" => $id]);
+
+                    // Valide la transaction et enclenche les requêtes précédentes 
+                    $pdo->commit();
+                    echo "Le genre a bien été supprimé.";
+                } 
+            }
+            header("Location: index.php?action=listGenres");
+            exit;
+        }
+    }
+
 

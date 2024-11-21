@@ -5,6 +5,7 @@ use Controller\ActeurController;
 use Controller\RealisateurController;
 use Controller\GenreController;
 use Controller\HomeController;
+use Controller\DeleteController;
 
 // initialisation automatique des classes
 spl_autoload_register(function ($class_name) {
@@ -18,10 +19,12 @@ $ctrlActeur = new ActeurController();
 $ctrlRealisateur = new RealisateurController();
 $ctrlGenre = new GenreController();
 $ctrlHome = new HomeController();
+$ctrlDelete = new DeleteController();
 
 
 $id = (isset($_GET["id"])) ? $_GET["id"] : null;
 $nom_genre = (isset($_POST["nom_genre"])) ? $_POST["nom_genre"] : null;
+
 
 if(isset($_GET["action"])){
     switch ($_GET["action"]) {
@@ -37,6 +40,7 @@ if(isset($_GET["action"])){
         case "detailGenre": $ctrlGenre->detailGenre($id); break;
         case "addGenre": $ctrlGenre->addGenre($nom_genre); break;
         case "addFilm": $ctrlFilm->addFilm(); break;
+        case "deleteGenre": $ctrlGenre->deleteGenre($id); break;
         
     } 
 

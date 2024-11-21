@@ -197,3 +197,6 @@ footer #instagram:hover{
     justify-content: center;
     align-items: center;
 }
+#deleteGenre{
+    cursor: pointer;
+}
