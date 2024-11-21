@@ -175,3 +175,25 @@ footer #instagram:hover{
     color:#ee2a7b;
 }
 
+#film-form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    font-family: "average sans", sans-serif;
+    font-weight: 200;
+}
+.film-form checkbox{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.film-form submit {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

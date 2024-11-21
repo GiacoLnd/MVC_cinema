@@ -42,11 +42,12 @@ class FilmController {
         require "view/detailFilm.php";
     }
 
+    // affiche le formulaire d'ajout de film
     public function addFilmForm(){
         require "view/addFilm.php";
     }
             
-
+    // Fonction qui sanitise le titre entré dans le formulaire d'ajout de film
     private function sanitizeTitre($titre){
         $titre = trim($titre);
         $titre = ucfirst($titre);
@@ -54,18 +55,17 @@ class FilmController {
             return htmlspecialchars($titre, ENT_QUOTES, 'UTF-8');
         }
     }
-    private function sanitreDateSortie($date_sortie){
-        $date_sortie = trim($date_sortie);
-        if (!empty($date_sortie)) {
-            return htmlspecialchars($date_sortie, ENT_QUOTES, 'UTF-8');
-        }
-    }
+
+
+    // Fonction qui sanitise la durée entrée dans le formulaire d'ajout de film
     private function sanitizeDuree($duree){
         $duree = trim($duree);
         if (!empty($duree)) {
             return htmlspecialchars($duree, ENT_QUOTES, 'UTF-8');
         }
     }
+
+    // Fonction qui sanitise le synopsis entré dans le formulaire d'ajout de film
     private function sanitizeSynopsis($synopsis){
         $synopsis = trim($synopsis);
         $synopsis = ucfirst($synopsis);
@@ -73,6 +73,8 @@ class FilmController {
             return htmlspecialchars($synopsis, ENT_QUOTES, 'UTF-8');
         }
     }
+
+    //fonction qui permet de lister les réalisateurs dans le formulaire d'ajout de film
     public function recupererRealisateur(){
         $pdo = Connect::seConnecter();
         $requete = $pdo->query ("SELECT realisateur.id_realisateur, personne.nom, personne.prenom 
@@ -81,23 +83,51 @@ class FilmController {
         $realisateurs = $requete->fetchAll();
         return $realisateurs;
     }
-    public function insererFilm($titre, $date_sortie, $duree, $synopsis, $realisateur){
+
+    //fonction qui permet de lister les genres dans le formulaire d'ajout de film
+    public function recupererGenres(){
         $pdo = Connect::seConnecter();
-        $requete = $pdo->prepare("INSERT INTO film (titre, date_sortie, duree, synopsis, id_realisateur) 
-                                        VALUES (:titre, :date_sortie, :duree, :synopsis, :id_realisateur)");
-        $requete->execute([":titre" => $titre, ":date_sortie" => $date_sortie, ":duree" => $duree, ":synopsis" => $synopsis, ":id_realisateur" => $realisateur]);
+        $requete = $pdo->query ("SELECT id_genre, nom_genre FROM genre");
+        $genres = $requete->fetchAll();
+        return $genres;
     }
 
+    // fonction qui permet l'ajout d'un film et de ses détails dans la liste de films et retourne son id
+    public function insererFilm($titre, $date_sortie, $duree, $synopsis, $realisateur){
+        $pdo = Connect::seConnecter();
+        $requete = $pdo->prepare("
+        INSERT INTO film (titre, date_sortie, duree, synopsis, id_realisateur) 
+        VALUES (:titre, :date_sortie, :duree, :synopsis, :id_realisateur)");
+        $requete->execute([":titre" => $titre, ":date_sortie" => $date_sortie, ":duree" => $duree, ":synopsis" => $synopsis, ":id_realisateur" => $realisateur]);
+        return $pdo -> lastInsertId();
+        }
+    
+    //fonction qui permet la liaison d'un film avec un ou plusieurs genres
+        public function insererGenre($id_film, $id_genre){
+        $pdo = Connect::seConnecter();
+        $requete = $pdo->prepare("
+        INSERT INTO genre_film (id_film, id_genre) 
+        VALUES (:id_film, :id_genre)");
+        $requete->execute([":id_film" => $id_film, ":id_genre" => $id_genre]);
+    }
+
+    //fonction qui récupère l'ensemble des fonctions du formulaire pour afficher la page addGenre et permet les fonctionnalités du formulaire
     public function addFilm(){  
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             $titre = $this->sanitizeTitre($_POST['titre']);
-            $date_sortie = $this->sanitreDateSortie($_POST['date_sortie']);
+            $date_sortie = $_POST['date_sortie'];
             $duree = $this->sanitizeDuree($_POST['duree']);
             $realisateurs = $_POST['realisateurs'];
             $synopsis = $this->sanitizeSynopsis($_POST['synopsis']);
+            $genres = $_POST['genres'];
 
-            if($titre && $date_sortie && $duree && $synopsis && $realisateurs){
-                $this->insererFilm($titre, $date_sortie, $duree, $synopsis, $realisateurs);
+            if($titre && $date_sortie && $duree && $synopsis && !empty($realisateurs) && !empty($genres)){
+                $film = $this->insererFilm($titre, $date_sortie, $duree, $synopsis, $realisateurs);
+
+                foreach($genres as $genre){
+                    $this->insererGenre($film, $genre);
+                }
+
                 header('Location: index.php?action=listFilms');
                 exit;
             } else {
@@ -105,10 +135,12 @@ class FilmController {
             }
         } else {
             $realisateurs = $this->recupererRealisateur();
+            $genres = $this->recupererGenres();
             require "view/addFilm.php";
-        }
+        
     }       
     
-}
+
+}}
     
     
