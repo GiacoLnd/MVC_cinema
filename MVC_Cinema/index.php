@@ -19,7 +19,6 @@ $ctrlActeur = new ActeurController();
 $ctrlRealisateur = new RealisateurController();
 $ctrlGenre = new GenreController();
 $ctrlHome = new HomeController();
-$ctrlDelete = new DeleteController();
 
 
 $id = (isset($_GET["id"])) ? $_GET["id"] : null;
