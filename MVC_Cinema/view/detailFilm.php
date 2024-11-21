@@ -3,6 +3,7 @@
 <p><strong>Titre :</strong> <?= $film['titre'] ?></p>
 <p><strong>Durée :</strong> <?= $film['duree'] ?></p>
 <p><strong>Année de sortie :</strong> <?= $film['date_sortie'] ?></p>
+<p><strong>Année de sortie :</strong> <?= $film['nom_genre'] ?></p>
 <p><strong>Synopsis :</strong> <?= $film['synopsis'] ?></p>
 
 <table>

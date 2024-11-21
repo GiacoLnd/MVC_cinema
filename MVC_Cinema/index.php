@@ -35,8 +35,8 @@ if(isset($_GET["action"])){
         case "detailRealisateur": $ctrlRealisateur->detailRealisateur($id); break;
         case "listGenres": $ctrlGenre->listGenres(); break;
         case "detailGenre": $ctrlGenre->detailGenre($id); break;
-        case "addForm": $ctrlGenre->addForm(); break;
         case "addGenre": $ctrlGenre->addGenre($nom_genre); break;
+        case "addFilm": $ctrlFilm->addFilm(); break;
         
     } 
 

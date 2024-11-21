@@ -24,6 +24,8 @@
     </tbody>    
 </table>
 
+<a href="index.php?action=addFilm">Ajouter un film</a>
+
 <?php
 
 $titre = "Liste des films";

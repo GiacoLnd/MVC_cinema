@@ -50,10 +50,6 @@ class GenreController{
         header('Location: index.php?action=listGenres');
         exit;
     }
-    // fonction qui 
-    public function addForm(){
-        
-    }
 
     // fonction qui enlève d'abord tout caractère et espace de l'entrée, puis vérifie si l'entrée existe déjà et enfin ajoute le genre, sinon, met un message d'erreur 
     public function addGenre($nom_genre): void{
