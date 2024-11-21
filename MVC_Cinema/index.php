@@ -21,6 +21,7 @@ $ctrlHome = new HomeController();
 
 
 $id = (isset($_GET["id"])) ? $_GET["id"] : null;
+$nom_genre = (isset($_POST["nom_genre"])) ? $_POST["nom_genre"] : null;
 
 if(isset($_GET["action"])){
     switch ($_GET["action"]) {
@@ -34,6 +35,9 @@ if(isset($_GET["action"])){
         case "detailRealisateur": $ctrlRealisateur->detailRealisateur($id); break;
         case "listGenres": $ctrlGenre->listGenres(); break;
         case "detailGenre": $ctrlGenre->detailGenre($id); break;
-    }
+        case "addForm": $ctrlGenre->addForm(); break;
+        case "addGenre": $ctrlGenre->addGenre($nom_genre); break;
+        
+    } 
 
 }
