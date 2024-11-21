@@ -15,31 +15,19 @@ class FilmController {
     //afficher les détails du film voulu
     public function detailFilm($id){
         $pdo = Connect::seConnecter();
-
-        // Préparer la requête SQL
-        $requete = $pdo->prepare("
-            SELECT 
-                film.id_film AS id_film,
-                film.titre AS titre,
-                TIME_FORMAT(SEC_TO_TIME(film.duree * 60), '%H:%i') AS duree,
-                DATE_FORMAT(film.date_sortie, '%Y') AS date_sortie,
-                film.synopsis AS synopsis,
-                genre.nom_genre AS nom_genre
-            FROM 
-                film
-            INNER JOIN 
-                genre_film ON film.id_film = genre_film.id_film
-            INNER JOIN 
-                genre ON genre_film.id_genre = genre.id_genre
-            WHERE 
-                film.id_film = :id
-        ");
-    
-        // Exécution de la requête
+        $requete = $pdo->prepare ("SELECT film.id_film, film.titre AS titre, TIME_FORMAT(SEC_TO_TIME(film.duree * 60), '%H:%i') AS duree, DATE_FORMAT(film.date_sortie, '%Y') AS date_sortie, film.synopsis AS synopsis
+            FROM film
+            WHERE film.id_film = :id");
         $requete->execute([":id" => $id]);
-    
-        // Récupérer le résultat
         $film = $requete->fetch();
+
+        $requeteGenre = $pdo->prepare("SELECT film.id_film,genre.nom_genre AS genre 
+            FROM genre_film
+            INNER JOIN genre ON genre_film.id_genre = genre.id_genre
+            INNER JOIN film ON genre_film.id_film = film.id_film
+            WHERE film.id_film = :id");
+        $requeteGenre->execute([":id" => $id]);
+        $genres = $requeteGenre -> fetchAll();
 
         $requeteCasting = $pdo->prepare("SELECT  personne.nom AS nom, personne.prenom AS prenom, personnage.nom_role AS nom_role
             FROM casting 
