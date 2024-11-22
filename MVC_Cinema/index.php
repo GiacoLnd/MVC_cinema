@@ -40,7 +40,7 @@ if(isset($_GET["action"])){
         case "addGenre": $ctrlGenre->addGenre($nom_genre); break;
         case "addFilm": $ctrlFilm->addFilm(); break;
         case "deleteGenre": $ctrlGenre->deleteGenre($id); break;
-        
+        case "editGenre": $ctrlGenre->editGenre($id); break;
     } 
 
 }

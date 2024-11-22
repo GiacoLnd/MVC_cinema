@@ -16,7 +16,7 @@ class GenreController{
 
     public function detailGenre($id){
         $pdo = Connect::seConnecter();
-        $requete = $pdo->prepare ("SELECT genre.nom_genre AS nom_genre
+        $requete = $pdo->prepare ("SELECT genre.id_genre AS id_genre, genre.nom_genre AS nom_genre
         FROM genre
         WHERE id_genre = :id");
         $requete->execute(["id" => $id]);
@@ -99,6 +99,35 @@ class GenreController{
             header("Location: index.php?action=listGenres");
             exit;
         }
+
+        // fonction qui permet la modification d'un genre
+        public function editGenre($id) {
+            $pdo = Connect::seConnecter();
+        
+            // Récupérer les informations du genre
+            $requete = "SELECT id_genre, nom_genre FROM genre WHERE id_genre = :id";
+            $requeteSelect = $pdo->prepare($requete);
+            $requeteSelect->bindParam(":id", $id); // relie le paramètre de la requête au paramètre $id
+            $requeteSelect->execute();
+            $resultatSelect = $requeteSelect->fetch();
+        
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $id_genre = filter_input(INPUT_POST, 'id_genre', FILTER_VALIDATE_INT);
+                $nom_genre = trim($_POST['nom_genre'] ?? '');
+        
+                // S'il y a un ID + que le nom_genre n'est pas vide
+                if ($id_genre && !empty($nom_genre)) {
+                    $requetes = "UPDATE genre SET nom_genre = :nom_genre WHERE id_genre = :id";
+                    $requeteUpdate = $pdo->prepare($requetes);
+                    $requeteUpdate->execute([    // execute la requête de mise à jour en fonction de chacun des paramètres
+                        ':id' => $id_genre,
+                        ':nom_genre' => $nom_genre
+                    ]);
+
+                    header("Location: index.php?action=listGenres");
+                    exit;
+                } 
+            }
+            require "view/editGenre.php";
+        }
     }
-
-

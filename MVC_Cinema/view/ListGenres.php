@@ -3,7 +3,7 @@
 <table cellpadding="7">
     <thead>
         <tr>
-            <th colspan="2">Liste des genres</th>
+            <th colspan="3">Liste des genres</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +18,7 @@
                             <button type="submit"  name="deleteGenre" ?>Supprimer le genre</button>
                         </form>
                     </td>
+                    
                 </tr>    
         <?php } ?>
     </tbody>    

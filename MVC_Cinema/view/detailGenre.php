@@ -14,9 +14,10 @@
                 <td><?= $genre['titre']?></td>
                 <td><?= $genre['date_sortie'] ?></td>
             </tr>
-            <?php } ?>   
+            <?php } ?>  
     </tbody>
 </table>
+<form action="index.php?action=editGenre&id=<?= $titreGenre['id_genre'] ?>" method="POST"><input type="submit" value="Modifier le genre"></form>
 <?php
 
 $titre = "Détails du genre";
