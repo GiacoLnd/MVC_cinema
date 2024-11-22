@@ -137,10 +137,58 @@ class FilmController {
             $realisateurs = $this->recupererRealisateur();
             $genres = $this->recupererGenres();
             require "view/addFilm.php";
-        
-    }       
+        }       
+    }
+
+    public function editFilm($id) {
+        $pdo = Connect::seConnecter();
+    
+        $requete = "SELECT film.id_film AS id_film, film.titre AS titre, film.date_sortie AS date_sortie, film.duree AS duree, film.synopsis AS synopsis,realisateur.id_realisateur AS id_realisateur, personne.nom AS nom, personne.prenom AS prenom, genre.id_genre AS id_genre, genre.nom_genre AS nom_genre FROM film 
+        INNER JOIN realisateur ON film.id_realisateur = realisateur.id_realisateur
+        INNER JOIN personne ON realisateur.id_personne = personne.id_personne
+        INNER JOIN genre_film ON film.id_film = genre_film.id_film 
+        INNER JOIN genre ON genre_film.id_genre = genre.id_genre
+         WHERE film.id_film = :id";
+        $requeteSelect = $pdo->prepare($requete);
+        $requeteSelect->bindParam(":id", $id); 
+        $requeteSelect->execute();
+        $resultatSelect = $requeteSelect->fetch();
+    
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $titre = trim($_POST['titre'] ?? '');
+            $date_sortie = trim($_POST['date_sortie'] ?? '');
+            $duree = filter_input(INPUT_POST, 'duree', FILTER_VALIDATE_INT);
+            $synopsis = trim($_POST['synopsis'] ?? '');
+            $id_realisateur = filter_input(INPUT_POST, 'id_realisateur', FILTER_VALIDATE_INT);
+            $id_genre = filter_input(INPUT_POST, 'id_genre', FILTER_VALIDATE_INT);
     
 
-}}
+            $requeteUpdate = "UPDATE film 
+                              SET titre = :titre, date_sortie = :date_sortie, duree = :duree, 
+                                  synopsis = :synopsis, id_realisateur = :id_realisateur 
+                              WHERE id_film = :id";
+            $stmtUpdate = $pdo->prepare($requeteUpdate);
+            $stmtUpdate->execute([
+                ':titre' => $titre,
+                ':date_sortie' => $date_sortie,
+                ':duree' => $duree,
+                ':synopsis' => $synopsis,
+                ':id_realisateur' => $id_realisateur,
+                ':id' => $id
+            ]);
+
+                $requeteGenre = "UPDATE genre_film SET id_genre = :id_genre WHERE id_film = :id_film";
+                $requeteGenreUpdate = $pdo->prepare($requeteGenre);
+                $requeteGenreUpdate->execute([
+                    ':id_genre' => $id_genre,
+                    ':id_film' => $id
+                ]);
+
+        }
+        $realisateurs = $this->recupererRealisateur();
+        $genres = $this->recupererGenres();
+        require "view/editFilm.php";
+    }
+}
     
     

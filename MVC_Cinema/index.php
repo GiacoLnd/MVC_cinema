@@ -41,6 +41,7 @@ if(isset($_GET["action"])){
         case "addFilm": $ctrlFilm->addFilm(); break;
         case "deleteGenre": $ctrlGenre->deleteGenre($id); break;
         case "editGenre": $ctrlGenre->editGenre($id); break;
+        case "editFilm": $ctrlFilm->editFilm($id); break;
     } 
 
 }

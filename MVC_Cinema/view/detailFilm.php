@@ -15,9 +15,10 @@
             <tr>
                 <td><?= $genre['genre'] ?></td>
             </tr>
-        <?php } ?>  
+        <?php } ?> 
     </tbody>
 </table>
+<button><a href="index.php?action=editFilm&id=<?= $film['id_film'] ?>">Modifier le film</a></button>
 <table>
     <thead>
         <tr>
@@ -34,6 +35,8 @@
             <?php } ?>   
     </tbody>
 </table>
+<button><a href="">Modifier la filmographie</a></button>
+
 <?php
 
 $titre = "Détails du films";

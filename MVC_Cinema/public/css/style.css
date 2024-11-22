@@ -200,3 +200,49 @@ footer #instagram:hover{
 #deleteGenre{
     cursor: pointer;
 }
+#table-genres{
+    background-color: #16191E;
+    border-radius: 30px;
+    width :250px;
+    height: fit-content;
+    outline: solid 2px white ;
+    color: white;
+    gap: 15px;
+    padding: 10px;;
+    margin: 20px;
+    font-family: "average sans", sans-serif;
+    font-weight: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#table-genres th{
+    padding: 15px;
+
+}
+#table-genres a{
+    text-decoration: none;
+    color: white;
+    transition: ease-out 0.2s;
+}
+#table-genres a:hover{
+    text-decoration: underline;
+    color: #B10000;
+}
+#table-genres table{
+    border-collapse: separate;
+    border-spacing: 7px 7px;
+}
+#table-genres td{
+    text-align: center;
+}
+#table-genres button{
+    background-color: white;
+    border-radius: 30px;
+    padding: 2px;
+    transition: ease-out 0.2s;
+}
+#table-genres button:hover{
+    background-color: #E4BC0B;
+    box-shadow: white 0px 10px 36px 0px, white 0px 0px 0px 1px;
+}
